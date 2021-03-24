@@ -504,9 +504,9 @@ COLOR_SENSEHAT SenseHat::ConvertRGB565(std::string hexCode)
       hexCode = hexCode.erase(0, 1);
    }
    // puis extraction des valeurs r g b.
-   std::istringstream(hexCode.substr(0,2)) >> std::hex >> r;
-   std::istringstream(hexCode.substr(2,2)) >> std::hex >> g;
-   std::istringstream(hexCode.substr(4,2)) >> std::hex >> b;
+   r = std::stoi(hexCode.substr(0, 2), nullptr, 16);
+   g = std::stoi(hexCode.substr(2, 2), nullptr, 16);
+   b = std::stoi(hexCode.substr(4, 2), nullptr, 16);
 
    return ConvertRGB565(r,g,b);
 }
@@ -1064,7 +1064,8 @@ SenseHat& SenseHat::operator<<(const int valeur)
 SenseHat& SenseHat::operator<<(const double valeur)
 {
     std::stringstream ss;
-    ss << std::fixed << std::setprecision(2) << valeur;
+    // ss << std::fixed; // leads to dangerous relocation: unsupported relocation
+    ss << std::setprecision(2);
     buffer += ss.str();
     return *this;
 }
